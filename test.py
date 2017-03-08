@@ -1,66 +1,24 @@
-#!/usr/bin/python3
-# a sample to use mysql-connector for python3
-# see details from   http://dev.mysql.com/doc/connector-python/en/index.html
+from tkinter import *
+import tkinter.messagebox as messagebox
 
-import mysql.connector
-import sys, os
+class Application(Frame):
+    def __init__(self, master=None):
+        Frame.__init__(self, master)
+        self.pack()
+        self.createWidgets()
 
-user = 'wpad'
-pwd = '111111'
-host = '192.168.11.226'
-db = 'test'
+    def createWidgets(self):
+        self.nameInput = Entry(self)
+        self.nameInput.pack()
+        self.alertButton = Button(self, text='Hello', command=self.hello)
+        self.alertButton.pack()
 
-data_file = 'mysql-test.dat'
+    def hello(self):
+        name = self.nameInput.get() or 'world'
+        messagebox.showinfo('Message', 'Hello, %s' % name)
 
-create_table_sql = "CREATE TABLE IF NOT EXISTS mytable ( \
-                    id int(10) AUTO_INCREMENT PRIMARY KEY, \
-    name varchar(20), age int(4) ) \
-    CHARACTER SET utf8"
-
-insert_sql = "INSERT INTO mytable(name, age) VALUES ('Jay', 22 ), ('杰', 26)"
-select_sql = "SELECT id, name, age FROM mytable"
-
-cnx = mysql.connector.connect(user=user, password=pwd, host=host, database=db)
-cursor = cnx.cursor()
-
-try:
-    cursor.execute(create_table_sql)
-except mysql.connector.Error as err:
-    print("create table 'mytable' failed.")
-    print("Error: {}".format(err.msg))
-    sys.exit()
-
-try:
-    cursor.execute(insert_sql)
-except mysql.connector.Error as err:
-    print("insert table 'mytable' failed.")
-    print("Error: {}".format(err.msg))
-    sys.exit()
-
-if os.path.exists(data_file):
-    myfile = open(data_file)
-    lines = myfile.readlines()
-    myfile.close()
-
-    for line in lines:
-        myset = line.split()
-        sql = "INSERT INTO mytable (name, age) VALUES ('{}', {})".format(myset[0], myset[1])
-        try:
-            cursor.execute(sql)
-        except mysql.connector.Error as err:
-            print("insert table 'mytable' from file 'mysql-test.dat' -- failed.")
-            print("Error: {}".format(err.msg))
-            sys.exit()
-
-try:
-    cursor.execute(select_sql)
-    for (id, name, age) in cursor:
-        print("ID:{}  Name:{}  Age:{}".format(id, name, age))
-except mysql.connector.Error as err:
-    print("query table 'mytable' failed.")
-    print("Error: {}".format(err.msg))
-    sys.exit()
-
-cnx.commit()
-cursor.close()
-cnx.close()
+app = Application()
+# 设置窗口标题:
+app.master.title('Hello World')
+# 主消息循环:
+app.mainloop()
