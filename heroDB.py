@@ -15,8 +15,8 @@ class HeroDB:
             cur.execute('create database if not exists ' + name)
             conn.select_db(name)
             conn.commit()
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # create a table
@@ -26,24 +26,24 @@ class HeroDB:
             if ex('show tables') == 0:
                 ex('create table ' + name + '(id int, name varchar(20), sex int, age int, info varchar(50))')
                 self.conn.commit()
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # insert single record
     def insert(self, name, value):
         try:
             self.cur.execute('insert into ' + name + ' values(%s,%s,%s,%s,%s)', value)
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # insert more records
     def insertMore(self, name, values):
         try:
             self.cur.executemany('insert into ' + name + ' values(%s,%s,%s,%s,%s)', values)
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # update single record from table
@@ -53,16 +53,16 @@ class HeroDB:
         try:
             # self.cur.execute('update ' + name + ' set name=' + str(values[1]) + ', sex=' + str(values[2]) + ', age=' + str(values[3]) + ', info=' + str(values[4]) + ' where id=' + str(values[0]) + ';')
             self.cur.execute('update ' + name + ' set name=%s, sex=%s, age=%s, info=%s where id=%s;', value)
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # update some record from table
     def update(self, name, values):
         try:
             self.cur.executemany('update ' + name + ' set name=%s, sex=%s, age=%s, info=%s where id=%s;', values)
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # get record count from db table
@@ -70,8 +70,8 @@ class HeroDB:
         try:
             count = self.cur.execute('select * from ' + name)
             return count
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # select first record from database
@@ -80,8 +80,8 @@ class HeroDB:
             self.cur.execute('select * from ' + name + ';')
             result = self.cur.fetchone()
             return result
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # select last record from database
@@ -90,8 +90,8 @@ class HeroDB:
             self.cur.execute('SELECT * FROM ' + name + ' ORDER BY id DESC;')
             result = self.cur.fetchone()
             return result
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # select next n records from database
@@ -100,8 +100,8 @@ class HeroDB:
             self.cur.execute('select * from ' + name + ';')
             results = self.cur.fetchmany(n)
             return results
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # select all records
@@ -111,16 +111,16 @@ class HeroDB:
             self.cur.scroll(0, mode='absolute')  # reset cursor location (mode = absolute | relative)
             results = self.cur.fetchall()
             return results
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # delete a record
     def deleteByID(self, name, id):
         try:
             self.cur.execute('delete from ' + name + ' where id=%s;', id)
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # delete some record
@@ -131,16 +131,16 @@ class HeroDB:
     def dropTable(self, name):
         try:
             self.cur.execute('drop table ' + name + ';')
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     # drop the database
     def dropDB(self, name):
         try:
             self.cur.execute('drop database ' + name + ';')
-        except MySQLdb.Error, e:
-            print
+        except mysql.connector.Error as e:
+            print()
             "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
     def __del__(self):

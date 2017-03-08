@@ -1,6 +1,9 @@
 from tkinter import *
+<<<<<<< HEAD
 import tkinter.messagebox as messagebox
 
+=======
+>>>>>>> origin/master
 class Application(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master)
@@ -8,6 +11,7 @@ class Application(Frame):
         self.createWidgets()
 
     def createWidgets(self):
+<<<<<<< HEAD
         self.nameInput = Entry(self)
         self.nameInput.pack()
         self.alertButton = Button(self, text='Hello', command=self.hello)
@@ -22,3 +26,15 @@ app = Application()
 app.master.title('Hello World')
 # 主消息循环:
 app.mainloop()
+=======
+        self.helloLabel = Label(self, text='Hello, world!')
+        self.helloLabel.pack()
+        self.quitButton = Button(self, text='Quit', command=self.quit)
+        self.quitButton.pack()
+
+        app = Application()
+        # 设置窗口标题:
+        app.master.title('Hello World')
+        # 主消息循环:
+        app.mainloop()
+>>>>>>> origin/master
